@@ -70,3 +70,7 @@ python api.py
 - 이 프로젝트는 개발 환경을 위한 예제입니다. 실제 서비스에 사용할 경우 보안 설정을 추가해야 합니다.
 - 카카오 API 사용을 위해서는 카카오 개발자 계정이 필요합니다.
 - 실제 서비스에서는 HTTPS를 사용해야 합니다.
+
+## 스크린샷
+
+<img width="817" alt="image" src="https://github.com/user-attachments/assets/7a04964f-b5ad-45fe-a634-24675cb3036d" />
