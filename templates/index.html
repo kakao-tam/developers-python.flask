@@ -1,388 +1,99 @@
 <!DOCTYPE html>
 <html lang="kr">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>Kakao REST-API Python.flask example</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <style>
-      :root {
-        --kakao-black: #000000;
-        --kakao-yellow: #fee500;
-        --kakao-gray: #f6f6f6;
-        --kakao-dark-gray: #666666;
-        --kakao-blue: #4c4c4c;
-      }
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-          Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #ffffff;
-        color: var(--kakao-black);
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Kakao REST-API Python.flask example</title>
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" type="image/png"
+    href="https://devtalk.kakao.com/uploads/default/optimized/2X/9/9b7b5d9cbbe2e8d6a5410c2d28926804cd8b0bb1_2_32x32.png">
+</head>
 
-      .header {
-        background-color: var(--kakao-black);
-        color: white;
-        padding: 0.5rem 0;
-        margin-bottom: 1rem;
-      }
+<body>
+  <div class="header">
+    <h1>카카오 로그인 및 API 예제</h1>
+  </div>
+  <div class="main-container">
+    <div class="container">
+      <div class="vertical-layout">
+        <script>
+          const domain = "http://localhost:4000";
+          Kakao.init("  this is javascript key "); // 여기에 JavaScript 키를 입력하세요
 
-      .header h1 {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 0 1rem;
-        font-size: 1.2rem;
-        font-weight: 600;
-      }
+          function kakaoLogin() {
+            Kakao.Auth.authorize({
+              redirectUri: `${domain}/redirect`,
+            });
+          }
 
-      .main-container {
-        width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 0 1rem;
-        box-sizing: border-box;
-      }
-
-      .container {
-        background-color: var(--kakao-gray);
-        padding: 1rem;
-        border-radius: 8px;
-        margin-top: 1rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
-
-      .notice {
-        background-color: #ffffff;
-        padding: 0.8rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-        border: 1px solid #e5e5e5;
-      }
-
-      .notice h3 {
-        color: var(--kakao-black);
-        margin: 0 0 0.5rem 0;
-        font-size: 1rem;
-        font-weight: 600;
-      }
-
-      .notice pre {
-        color: var(--kakao-dark-gray);
-        margin: 0;
-        font-size: 0.8rem;
-        line-height: 1.4;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-      }
-
-      button {
-        background-color: var(--kakao-yellow);
-        border: none;
-        padding: 8px 16px;
-        margin: 3px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--kakao-black);
-        transition: background-color 0.2s;
-        white-space: nowrap;
-      }
-
-      button:hover {
-        background-color: #ffde00;
-      }
-
-      input {
-        background-color: white;
-        border: 1px solid #e5e5e5;
-        border-radius: 4px;
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        width: 100%;
-        max-width: 300px;
-        margin: 3px;
-        box-sizing: border-box;
-      }
-
-      input::placeholder {
-        color: #999;
-        font-size: 0.8rem;
-      }
-
-      .friend-message-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin: 0.5rem 0;
-        flex-wrap: wrap;
-      }
-
-      textarea {
-        width: 100%;
-        margin-top: 10px;
-        border-radius: 4px;
-        padding: 10px;
-        border: 1px solid #e5e5e5;
-        font-family: monospace;
-        font-size: 12px;
-        line-height: 1.4;
-        resize: none;
-        height: 150px;
-        box-sizing: border-box;
-      }
-
-      .section-title {
-        color: var(--kakao-black);
-        font-size: 1rem;
-        font-weight: 600;
-        margin: 1rem 0 0.5rem;
-      }
-
-      .button-group {
-        margin: 0.5rem 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        align-items: center;
-      }
-
-      .login-container {
-        text-align: center;
-        margin: 1rem 0;
-      }
-
-      .login-container img {
-        width: 180px;
-        max-width: 100%;
-        height: auto;
-      }
-
-      .api-container {
-        background-color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-top: 0.5rem;
-        border: 1px solid #e5e5e5;
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      .vertical-layout {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .login-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .kakao-js-login {
-        background-color: var(--kakao-yellow);
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 1rem;
-        color: var(--kakao-black);
-        transition: background-color 0.2s;
-      }
-
-      .kakao-js-login:hover {
-        background-color: #ffde00;
-      }
-
-      @media (max-width: 600px) {
-        .header h1 {
-          font-size: 1rem;
-          text-align: center;
-        }
-
-        .main-container {
-          padding: 0 0.5rem;
-        }
-
-        .container {
-          padding: 0.5rem;
-        }
-
-        .notice {
-          padding: 0.5rem;
-        }
-
-        .button-group {
-          justify-content: center;
-        }
-
-        .friend-message-container {
-          flex-direction: column;
-          align-items: stretch;
-        }
-
-        input {
-          max-width: 100%;
-        }
-
-        .login-buttons {
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .kakao-js-login {
-          width: 100%;
-          max-width: 300px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="header">
-      <h1>카카오 로그인 및 API 예제</h1>
-    </div>
-
-    <div class="main-container">
-      <div class="notice">
-        <h3>설정 안내</h3>
-        <pre>
-- [KOE101, KOE004] 내 애플리케이션>제품 설정>카카오 로그인 > 활성화 설정 : ON
-- [KOE006] 내 애플리케이션>제품 설정>카카오 로그인 > Redirect URI : http://localhost:4000/redirect</pre
-        >
-      </div>
-
-      <div class="container">
-        <div class="vertical-layout">
-          <script>
-            Kakao.init("  this is javascript key "); // 여기에 JavaScript 키를 입력하세요
-
-            function kakaoLogin() {
-              Kakao.Auth.authorize({
-                redirectUri: "http://localhost:4000/redirect",
+          function REST_Call(path) {
+            fetch(domain + path)
+              .then(response => response.text()) // 응답을 텍스트로 변환
+              .then(data => {
+                try {
+                  // JSON 파싱 시도
+                  const jsonData = JSON.parse(data);
+                  setContents(JSON.stringify(jsonData, null, 2));
+                } catch (e) {
+                  // JSON 파싱 실패 시 텍스트로 출력
+                  setContents(data);
+                }
+              })
+              .catch(error => {
+                console.error("Fetch 에러:", error);
               });
-            }
+          }
 
-            function REST_Call(path) {
-              axios
-                .get("http://localhost:4000" + path, {
-                  params: {},
-                  withCredentials: true,
-                })
-                .then(({ data }) => {
-                  console.log(data);
-                  document.getElementById("contents").value = JSON.stringify(
-                    data,
-                    null,
-                    2
-                  );
-                })
-                .catch((err) => {
-                  console.log(err);
-                  document.getElementById("contents").value = JSON.stringify(
-                    err,
-                    null,
-                    2
-                  );
-                });
-            }
-          </script>
+          function setContents(data) {
+            document.getElementById("contents").value = data;
+          }
+        </script>
 
-          <div class="login-container">
-            <div class="login-buttons">
-              <a href="/authorize">
-                <img
-                  src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg"
-                  alt="카카오 로그인"
-                />
-              </a>
-              <button
-                onclick="kakaoLogin()"
-                style="
-                  background-color: white;
-                  border: 1px solid var(--kakao-yellow);
-                "
-              >
-                JavaScript SDK로 로그인
-              </button>
-            </div>
+        <div class="login-container">
+          <div class="login-buttons">
+            <a href="/authorize">
+              <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" alt="카카오 로그인" />
+            </a>
+            <button onclick="kakaoLogin()" style="background-color: white; border: 1px solid var(--kakao-yellow);">
+              JavaScript SDK로 로그인
+            </button>
           </div>
+        </div>
 
-          <div class="api-container">
-            <div class="section-title">기본 기능</div>
-            <div class="button-group">
-              <button onclick="REST_Call('/profile')">프로필 조회</button>
-              <button
-                onclick="REST_Call('/logout')"
-                style="background-color: white; border: 1px solid #e5e5e5"
-              >
-                로그아웃
-              </button>
-              <button
-                onclick="REST_Call('/unlink')"
-                style="
-                  background-color: white;
-                  color: #ff5c5c;
-                  border: 1px solid #ff5c5c;
-                "
-              >
-                연결끊기
-              </button>
-            </div>
+        <div class="api-container">
+          <div class="section-title">기본 기능</div>
+          <div class="button-group">
+            <button onclick="REST_Call('/profile')">사용자 정보 가져오기</button>
+            <button onclick="REST_Call('/logout')"
+              style="background-color: white; border: 1px solid #E5E5E5;">로그아웃</button>
+            <button onclick="REST_Call('/unlink')"
+              style="background-color: white; color: #FF5C5C; border: 1px solid #FF5C5C;">연결 끊기</button>
           </div>
+        </div>
 
-          <textarea
-            id="contents"
-            placeholder="API 응답 결과가 여기에 표시됩니다..."
-          ></textarea>
+        <textarea id="contents" placeholder="API 응답 결과가 여기에 표시됩니다..."></textarea>
 
-          <div class="api-container">
-            <div class="section-title">추가 기능</div>
-            <div class="button-group">
-              <a
-                href="/authorize?scope=friends,talk_message"
-              >
-                <button
-                  style="
-                    background-color: white;
-                    border: 1px solid var(--kakao-yellow);
-                  "
-                >
-                  친구목록/메시지 권한 획득
-                </button>
-              </a>
-              <button onclick="REST_Call('/friends')">친구목록 조회</button>
-              <button onclick="REST_Call('/message')">
-                나에게 메시지 발송
-              </button>
-              <div class="friend-message-container">
-                <input
-                  type="text"
-                  id="friend-uuid"
-                  placeholder='UUID 입력 ex) "AAA","BBB" 쌍따옴표 포함'
-                />
-                <button
-                  onclick="REST_Call('/friend-message?uuid=' + document.getElementById('friend-uuid').value)"
-                >
-                  친구에게 메시지 발송
-                </button>
-              </div>
+        <div class="api-container">
+          <div class="section-title">추가 기능</div>
+          <div class="button-group">
+            <a href="/authorize?scope=friends,talk_message">
+              <button style="background-color: white; border: 1px solid var(--kakao-yellow);">친구목록/메시지 권한
+                획득</button>
+            </a>
+            <button onclick="REST_Call('/friends')">친구 목록 가져오기</button>
+            <button onclick="REST_Call('/message')">나에게 메시지 발송</button>
+            <div class="friend-message-container">
+              <input type="text" id="friend-uuid" placeholder='UUID 입력 ex) "AAA","BBB" 쌍따옴표 포함' />
+              <button onclick="REST_Call('/friend-message?uuid=' + document.getElementById('friend-uuid').value)">친구에게
+                메시지 발송</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

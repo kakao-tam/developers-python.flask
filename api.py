@@ -7,14 +7,14 @@ app.secret_key = os.urandom(24)
 
 client_id = " this is rest api key "
 client_secret = " this is client secret key "
-redirect_uri = "http://localhost:4000/redirect"
+domain = "http://localhost:4000"
+redirect_uri = domain + "/redirect"
 kauth_host = "https://kauth.kakao.com"
 kapi_host = "https://kapi.kakao.com"
-
+message_template = '{"object_type":"text","text":"Hello, world!","link":{"web_url":"https://developers.kakao.com","mobile_web_url":"https://developers.kakao.com"}}'
 @app.route("/")
 def home():
     return render_template('index.html')
-
 
 @app.route("/authorize")
 def authorize():
@@ -40,47 +40,47 @@ def redirect_page():
 
 @app.route("/profile")
 def profile():
-    headers = {'Authorization': 'Bearer ' + session['access_token']}
+    headers = {'Authorization': 'Bearer ' + session.get('access_token', '')}
     resp = requests.get(kapi_host + "/v2/user/me", headers=headers)
     return resp.text
 
 
 @app.route("/friends")
 def friends():
-    headers = {'Authorization': 'Bearer ' + session['access_token']}
+    headers = {'Authorization': 'Bearer ' + session.get('access_token', '')}
     resp = requests.get(kapi_host + "/v1/api/talk/friends", headers=headers)
     return resp.text
 
 
 @app.route("/message")
 def message():
-    headers = {'Authorization': 'Bearer ' + session['access_token']}
+    headers = {'Authorization': 'Bearer ' + session.get('access_token', '')}
     data = {
-        'template_object': '{"object_type":"text","text":"Hello, world!","link":{"web_url":"https://developers.kakao.com","mobile_web_url":"https://developers.kakao.com"}}'}
+        'template_object': message_template}
     resp = requests.post(kapi_host + "/v2/api/talk/memo/default/send", headers=headers, data=data)
     return resp.text
 
 
 @app.route("/friend-message")
 def friends_message():
-    headers = {'Authorization': 'Bearer ' + session['access_token']}
+    headers = {'Authorization': 'Bearer ' + session.get('access_token', '')}
     data = {
         'receiver_uuids': '[{0}]'.format(request.args.get("uuid")),
-        'template_object': '{"object_type":"text","text":"Hello, world!","link":{"web_url":"https://developers.kakao.com","mobile_web_url":"https://developers.kakao.com"}}'}
+        'template_object': message_template}
     resp = requests.post(kapi_host + "/v1/api/talk/friends/message/default/send", headers=headers, data=data)
     return resp.text
 
 
 @app.route("/logout")
 def logout():
-    headers = {'Authorization': 'Bearer ' + session['access_token']}
+    headers = {'Authorization': 'Bearer ' + session.get('access_token', '')}
     resp = requests.post(kapi_host + "/v1/user/logout", headers=headers)
     return resp.text
 
 
 @app.route("/unlink")
 def unlink():
-    headers = {'Authorization': 'Bearer ' + session['access_token']}
+    headers = {'Authorization': 'Bearer ' + session.get('access_token', '')}
     resp = requests.post(kapi_host + "/v1/user/unlink", headers=headers)
     return resp.text
 

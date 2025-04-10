@@ -1,16 +1,16 @@
-# 카카오 로그인 Flask 예제
+# Kakao REST API Python Flask 예제
 
-이 프로젝트는 Python Flask를 사용하여 카카오 로그인 API를 구현한 예제입니다.
+이 프로젝트는 Kakao REST API를 Python Flask로 구현한 예제입니다.
 
 ## 주요 기능
 
 - 카카오 로그인
-- 사용자 프로필 조회
-- 카카오톡 메시지 전송
-- 친구 목록 조회
-- 친구에게 메시지 전송
+- 사용자 정보 가져오기
+- 친구 목록 가져오기
+- 나에게 메시지 발송
+- 친구에게 메시지 발송
 - 로그아웃
-- 계정 연결 해제
+- 연결 끊기
 
 ## 프로젝트 구조
 
@@ -18,6 +18,8 @@
 .
 ├── api.py              # Flask 애플리케이션 메인 파일
 ├── requirements.txt    # 프로젝트 의존성 파일
+├── static/            # 정적 파일 디렉토리
+│   └── style.css     # 스타일시트
 ├── templates/         # HTML 템플릿 디렉토리
 │   └── index.html    # 메인 페이지 템플릿
 └── README.md         # 프로젝트 설명 파일
