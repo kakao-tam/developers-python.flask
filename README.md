@@ -74,5 +74,5 @@ python api.py
 - 실제 서비스에서는 HTTPS를 사용해야 합니다.
 
 ## 스크린샷
+![image](https://github.com/user-attachments/assets/2a4b9a6b-5224-49db-9f65-1b22223f2603)
 
-<img width="817" alt="image" src="https://github.com/user-attachments/assets/7a04964f-b5ad-45fe-a634-24675cb3036d" />
