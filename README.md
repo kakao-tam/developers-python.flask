@@ -13,7 +13,6 @@
 - 연결 끊기
 
 ## 프로젝트 구조
-
 ```
 .
 ├── api.py              # Flask 애플리케이션 메인 파일
@@ -33,39 +32,29 @@ python -m venv venv
 source venv/bin/activate  # macOS/Linux
 ```
 
-2. 필요한 패키지 설치
+2. 의존성 설치
 ```bash
 pip install -r requirements.txt
 ```
 
-## 설정 방법
+3. 카카오 개발자 설정
+- [Kakao Developers](https://developers.kakao.com)에서 애플리케이션 생성
+- 생성된 애플리케이션의 REST API 키를 `api.py`의 `client_id` 변수에 입력합니다.
+- Client Secret을 `api.py`의 `client_secret` 변수에 입력합니다.
+- 카카오 개발자 콘솔의 "카카오 로그인 > 플랫폼 > Web 플랫폼"에서 사이트 도메인을 등록합니다.
+- 카카오 개발자 콘솔의 "카카오 로그인 > 카카오 로그인 활성화"를 ON으로 설정합니다.
+- Redirect URI를 `http://localhost:4000/redirect`로 등록합니다.
 
-1. [카카오 개발자 콘솔](https://developers.kakao.com)에서 애플리케이션을 생성합니다.
-2. 생성된 애플리케이션의 REST API 키를 `api.py`의 `client_id` 변수에 입력합니다.
-3. Client Secret을 `api.py`의 `client_secret` 변수에 입력합니다.
-4. 카카오 개발자 콘솔의 "카카오 로그인 > 플랫폼 > Web 플랫폼"에서 사이트 도메인을 등록합니다.
-5. 카카오 개발자 콘솔의 "카카오 로그인 > 카카오 로그인 활성화"를 ON으로 설정합니다.
-6. Redirect URI를 `http://localhost:4000/redirect`로 등록합니다.
-
-## 실행 방법
-
+4. 서버 실행
 ```bash
 python api.py
 ```
 
-실행 후 웹 브라우저에서 `http://localhost:4000`으로 접속하면 웹 애플리케이션을 확인할 수 있습니다.
+## 사용 방법
 
-## API 엔드포인트
-
-- `/`: 메인 페이지
-- `/authorize`: 카카오 로그인 인증
-- `/redirect`: 카카오 로그인 콜백 처리
-- `/profile`: 사용자 프로필 조회
-- `/friends`: 친구 목록 조회
-- `/message`: 나에게 메시지 전송
-- `/friends_message`: 친구에게 메시지 전송
-- `/logout`: 로그아웃
-- `/unlink`: 계정 연결 해제
+1. 브라우저에서 `http://localhost:4000` 접속
+2. 카카오 로그인 버튼 클릭
+3. 각 기능 버튼을 통해 API 테스트
 
 ## 주의사항
 
