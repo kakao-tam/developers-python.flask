@@ -17,8 +17,6 @@
 .
 ├── api.py              # Flask 애플리케이션 메인 파일
 ├── requirements.txt    # 프로젝트 의존성 파일
-├── static/            # 정적 파일 디렉토리
-│   └── style.css     # 스타일시트
 ├── templates/         # HTML 템플릿 디렉토리
 │   └── index.html    # 메인 페이지 템플릿
 └── README.md         # 프로젝트 설명 파일

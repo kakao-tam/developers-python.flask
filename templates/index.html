@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Kakao REST-API Python.flask example</title>
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="http://test-tam.pe.kr/style/style.css" />
   <link rel="icon" type="image/png"
-    href="https://devtalk.kakao.com/uploads/default/optimized/2X/9/9b7b5d9cbbe2e8d6a5410c2d28926804cd8b0bb1_2_32x32.png">
+    href="https://devtalk.kakao.com/uploads/default/optimized/2X/9/9b7b5d9cbbe2e8d6a5410c2d28926804cd8b0bb1_2_32x32.png" />
 </head>
 
 <body>
@@ -19,7 +19,7 @@
     <div class="container">
       <div class="vertical-layout">
         <script>
-          const domain = "http://localhost:4000";
+          const domain = window.location.origin;
           Kakao.init("  this is javascript key "); // 여기에 JavaScript 키를 입력하세요
 
           function kakaoLogin() {
@@ -49,6 +49,18 @@
           function setContents(data) {
             document.getElementById("contents").value = data;
           }
+
+          // Check for login success parameter
+          window.onload = function() {
+              const urlParams = new URLSearchParams(window.location.search);
+              if (urlParams.get('login') === 'success') {
+              const successLabel = document.createElement('span');
+              successLabel.textContent = '로그인 성공';
+              successLabel.style.color = 'green';
+              successLabel.style.marginLeft = '10px';
+              document.querySelector('.login-buttons').appendChild(successLabel);
+              }
+          }          
         </script>
 
         <div class="login-container">
